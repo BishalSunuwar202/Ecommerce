@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom';
 
 
 export default function Home() {
@@ -29,17 +30,20 @@ export default function Home() {
                 onChange={(e) => { setSearchTerm(e.target.value) }} />
             <div className='row'>
                 {
-                    products.map((el) => {
-                        return <div class="col-3 p-4" >
-                            <div class="card">
-                                <img src={`${el.images[0]}`} class="card-img-top" alt="..." />
-                                <div class="card-body">
-                                    <h4 class="card-price">${el.price}</h4>
-                                    <h5 class="card-title">{el.name}</h5>
-                                    <p class="card-text">{el.description}</p>
-
-                                </div>
-                            </div>
+                    products.map((el, i) => {
+                        
+                        return <div class="col-3 p-4" key={i}>
+                        <Link to = {`/products/${el._id}`}>
+                        <div class="card">
+                        <img src={`${el.images[0]}`} class="card-img-top" alt="..." />
+                        <div class="card-body">
+                        <h4 class="card-price">${el.price}</h4>
+                        <h5 class="card-title">{el.name}</h5>
+                        <p class="card-text">{el.description}</p>
+                        
+                        </div>
+                        </div>
+                        </Link>
                         </div>
                     })
 

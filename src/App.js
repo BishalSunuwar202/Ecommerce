@@ -16,13 +16,15 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login, logout, setUser } from "./redux/reducer/auth";
 import ProtectedRoute from "./component/ProtectedRoute";
+import Show from "./page/products/Show";
+
 
 
 
 
 
 function App() {
-  // const [user_fetch, setUserFetch] = useState(false)
+  const [user_fetch, setUserFetch] = useState(false)
   const dispatch = useDispatch();
   useEffect(() => {
 
@@ -36,26 +38,26 @@ function App() {
         console.log(res.data);
         
         dispatch(setUser(res.data)) 
-        // setUserFetch(true)
+         setUserFetch(true)
       }).catch(resp => {
         dispatch(logout())
-        // setUserFetch(true)
+        setUserFetch(true)
       })
+    } else {
+      setUserFetch(true)
     }
-
-
   },[])
-  // if (!user_fetch) {
-  //   return (
+  if (!user_fetch) {
+    return (
 
-  //     <>
-  //       <div class="spinner-border" role="status">
-  //         <span class="sr-only">Loading...</span>
-  //       </div>
-  //     </>
-  //   )
+      <>
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </>
+    )
 
-  // }
+  }
   return (
     <>
       <div className="container">
@@ -66,8 +68,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/products">  
+          <Route path = "" element={<Home />}/>
+          <Route path = ":id" element={<Show />}/>
+                    {/*slug concept*/}
+          </Route>
+          
 
-          <Route path="/seller" element={<ProtectedRoute /> }>
+          <Route path="/seller" element={<ProtectedRoute role = "seller"  /> }>
 
             <Route path="products/create" element={<Create />} />
           </Route>
