@@ -2,15 +2,21 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { addTocart } from "../../redux/reducer/cart";
+import {useDispatch} from "react-redux"
+
+
+
 
 export default function Show() {
+  const dispatch = useDispatch();
   let { id } = useParams();
   const [product, setProduct] = useState({});
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/products/${id}`)
       .then((response) => {
-        console.log(response);
+        console.log(response.data.data);
         setProduct(response.data.data);
       })
       .catch((error) => {});
@@ -20,6 +26,13 @@ export default function Show() {
   //     <span class="sr-only">Loading...</span>
   //   </div></>
   // }
+  function handleaddToCard() {
+      dispatch(addTocart({
+        _id:product._id,
+        name:product.name,
+      }))
+
+  }
   return (
     <div className="row">
       <div className="col-md-6">
@@ -80,7 +93,10 @@ export default function Show() {
         <p>{product.in_stock}</p>
         <p>{product.description}</p>
         <p>{product.brand}</p>
+        <hr/>
+        <button onClick={handleaddToCard} className="btn btn-sd btn-primary" >Add to Cart</button>
       </div>
+      
     </div>
   );
 }
