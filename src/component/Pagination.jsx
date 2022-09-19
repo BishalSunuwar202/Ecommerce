@@ -11,6 +11,12 @@ const Pagination = ({setProducts}) => {
       .then((response) => {
         setProducts(response.data.data[0].data);
         console.log(response.data);
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+        
       })
 
       .catch((error) => {
